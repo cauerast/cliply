@@ -64,7 +64,7 @@ cliply/
 
 **Requirements:** macOS (Apple Silicon or Intel), [Homebrew](https://brew.sh/), and internet access.
 
-With Homebrew installed, open **Terminal** and run:
+With Homebrew installed, open **Terminal** and run 2 times (1 - install; 2 - update):
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/cauerast/cliply/main/install.sh | bash
