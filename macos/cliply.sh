@@ -126,7 +126,7 @@ menu() {
       IFS= read -r playlist_choice || playlist_choice=1
       [[ "$playlist_choice" == 2 ]] && args=(--yes-playlist)
     fi
-    printf '\n  Select format [1-6, default 1]: '
+    printf '\n  Select format: '
     IFS= read -r selection || selection=1
     selection=${selection:-1}
     case "$selection" in 1 | 2 | 3 | 4 | 5 | 6) ;; *)
