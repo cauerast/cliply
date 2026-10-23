@@ -98,7 +98,7 @@ if errorlevel 1 (
     :format
     echo.
     set "FORMAT="
-    set /p "FORMAT=              Select format [1-6, default 1]: "
+    set /p "FORMAT=              Select format: "
     if not defined FORMAT set "FORMAT=1"
     if "%FORMAT%"=="1" goto video
     if "%FORMAT%"=="2" goto trim

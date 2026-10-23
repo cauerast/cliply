@@ -111,7 +111,7 @@ menu() {
       printf '%s\n' "$playlist_choice"
       [[ "$playlist_choice" == 2 ]] && args=(--yes-playlist)
     fi
-    printf '\n  Select format [1-6, ENTER for 1]: '
+    printf '\n  Select format: '
     selection=$(read_choice) || break
     printf '%s\n' "$selection"
     case "$selection" in
