@@ -88,14 +88,6 @@ cliply
 
 Or, in Finder, select **Go → Go to Folder...**, enter `~/Applications`, and double-click **Cliply.command**. This launches an interactive Terminal session with the menu. You may drag the launcher to a convenient location or create a macOS Shortcut for it.
 
-> **Security:** The one-line command downloads and runs an online script. Review [`install.sh`](install.sh) before running it if you prefer. To download and inspect it separately:
->
-> ```bash
-> curl -fsSLo install.sh https://raw.githubusercontent.com/cauerast/cliply/main/install.sh
-> less install.sh
-> bash install.sh
-> ```
-
 **Update CLIPLY:** after changes are published on GitHub’s `main` branch, run the exact same installation command again. It replaces the installed macOS script and launcher without deleting your Downloads. Open a new Terminal window if `cliply` is not found, or run `source ~/.zprofile` in your existing zsh session. To update the underlying tools separately:
 
 ```bash
