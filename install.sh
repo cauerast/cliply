@@ -27,11 +27,13 @@ for dependency in yt-dlp ffmpeg; do
     info "$dependency is already installed."
   else
     info "Installing $dependency using Homebrew..."
-    brew install "$dependency" || fail "Could not install $dependency."
+    brew install "$dependency" </dev/null || fail "Could not install $dependency."
   fi
 done
 command -v ffprobe >/dev/null 2>&1 || fail 'ffprobe is missing; reinstall FFmpeg with Homebrew.'
 
+# Homebrew must not consume the pipe containing this installer (curl ... | bash).
+# All interactive input to Homebrew is redirected above.
 info 'Downloading Cliply...'
 mkdir -p "$APP_DIR" "$BIN_DIR" "$LAUNCHER_DIR"
 TEMP_FILE="$(mktemp "$APP_DIR/.cliply.XXXXXX")"
@@ -59,7 +61,7 @@ LAUNCHER
 chmod 755 "$LAUNCHER_DIR/Cliply.command"
 
 # Enable the CLI in new zsh login shells (macOS default).
-if [[ ":$PATH:" != *":$BIN_DIR:"* ]]; then
+if ! grep -Fqx 'export PATH="$HOME/.local/bin:$PATH"' "$HOME/.zprofile" 2>/dev/null; then
   PROFILE="$HOME/.zprofile"
   PATH_LINE='export PATH="$HOME/.local/bin:$PATH"'
   if ! grep -Fqx "$PATH_LINE" "$PROFILE" 2>/dev/null; then
@@ -67,6 +69,9 @@ if [[ ":$PATH:" != *":$BIN_DIR:"* ]]; then
     info 'Added ~/.local/bin to ~/.zprofile (takes effect in new Terminal windows).'
   fi
 fi
+
+# Verify first-run installation before reporting success.
+[[ -x "$BIN_DIR/cliply" && -s "$APP_DIR/cliply.sh" && -x "$LAUNCHER_DIR/Cliply.command" ]] || fail "Could not verify installed files."
 
 printf '\n'
 info 'Installation complete!'

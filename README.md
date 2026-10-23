@@ -16,7 +16,7 @@
 
 CLIPLY is an interactive wrapper around [yt-dlp](https://github.com/yt-dlp/yt-dlp) and [FFmpeg](https://ffmpeg.org/). Paste a supported media URL, select a format, and find the result in your **Downloads** folder. Windows and macOS share six modes, a terminal menu, dependency checks, and a playlist prompt.
 
-> **Respect creators and platform rules.** CLIPLY does not bypass DRM or guarantee access to restricted content.
+> **Respect creators and platform rules.** Only download content you own or are authorized to save. CLIPLY does not bypass DRM or guarantee access to restricted content.
 
 ## Preview
 
@@ -64,13 +64,11 @@ cliply/
 
 **Requirements:** macOS (Apple Silicon or Intel), [Homebrew](https://brew.sh/), and internet access.
 
-With Homebrew installed, open **Terminal** and run 2 times:
+With Homebrew installed, open **Terminal** and run:
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/cauerast/cliply/main/install.sh | bash
 ```
-
-1st - install and 2nd - update
 
 The installer:
 
@@ -80,6 +78,7 @@ The installer:
 4. Creates the `cliply` command in `~/.local/bin/`.
 5. Creates `~/Applications/Cliply.command` to launch Cliply by double-clicking in Finder.
 6. Adds `~/.local/bin` to `~/.zprofile` if needed for new Terminal windows.
+7. Verifies that the CLI, downloaded script, and Finder launcher were all created successfully.
 
 **Launch:** open a **new Terminal window** and type:
 
@@ -89,7 +88,15 @@ cliply
 
 Or, in Finder, select **Go → Go to Folder...**, enter `~/Applications`, and double-click **Cliply.command**. This launches an interactive Terminal session with the menu. You may drag the launcher to a convenient location or create a macOS Shortcut for it.
 
-**Update CLIPLY:** run the same installer again. To update the underlying tools separately:
+> **Security:** The one-line command downloads and runs an online script. Review [`install.sh`](install.sh) before running it if you prefer. To download and inspect it separately:
+>
+> ```bash
+> curl -fsSLo install.sh https://raw.githubusercontent.com/cauerast/cliply/main/install.sh
+> less install.sh
+> bash install.sh
+> ```
+
+**Update CLIPLY:** after changes are published on GitHub’s `main` branch, run the exact same installation command again. It replaces the installed macOS script and launcher without deleting your Downloads. Open a new Terminal window if `cliply` is not found, or run `source ~/.zprofile` in your existing zsh session. To update the underlying tools separately:
 
 ```bash
 brew update && brew upgrade yt-dlp ffmpeg
@@ -145,7 +152,9 @@ Then double-click `macos/Launch cliply.command`.
 ### macOS troubleshooting
 
 - **`brew: command not found`** — install Homebrew from [brew.sh](https://brew.sh/) and rerun the installer.
-- **`cliply: command not found`** — open a new Terminal window, or run `source ~/.zprofile`; alternatively use `~/.local/bin/cliply`.
+- **`cliply: command not found`** — open a new Terminal window, or run `source ~/.zprofile`; alternatively use `~/.local/bin/cliply`. Installation cannot change the PATH of a parent Terminal session.
+- **Installer stops before creating `cliply`** — make sure the updated `install.sh` is published on `main`, then rerun the install command.
+- **Missing dependency when launching Cliply** — install it with `brew install yt-dlp ffmpeg` and start Cliply again; the normal startup check stays hidden when dependencies are present.
 - **Shortcut cannot control Terminal** — check the macOS automation permission prompt / settings.
 - **Launcher won't open** — verify the file exists at `~/Applications/Cliply.command`; run `chmod +x ~/Applications/Cliply.command` and follow macOS security prompts.
 - **File not found during installation** — confirm the repo is public, the default branch is `main`, and `macos/cliply.sh` exists in that branch.
@@ -180,9 +189,9 @@ winget upgrade --id Gyan.FFmpeg -e
 1. Launch CLIPLY through the macOS CLI, Finder launcher, Shortcut, or Windows `.bat`.
 2. Paste a supported media URL.
 3. If the link contains a playlist/mix, choose the single item or entire list.
-4. Select a format from `1` to `6` (ENTER defaults to video).
+4. On macOS, press `1` to `6` **once** to select a format immediately; ENTER selects video. (On Windows, follow the batch-file input prompt.)
 5. For trimmed modes, enter start/end times (for example, `00:30` and `01:45`).
-6. Follow progress in Terminal, then find the file in **Downloads**.
+6. Follow progress in Terminal, then find the file in **Downloads**. On macOS, progress updates on the same terminal line while downloading; merging and metadata logs still appear as separate lines.
 
 ## Quality notes
 
